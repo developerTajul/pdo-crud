@@ -1,5 +1,9 @@
 <?php 
 require_once("config.php");
+echo "<pre>";
+print_r( $_POST );
+echo "</pre>";
+
 
 /**
  * Select Query
@@ -13,7 +17,7 @@ $all_posts = $select_query->fetchAll( PDO::FETCH_ASSOC );
 /**
  * Insert Query
  */
-if( isset( $_POST['reg_info'] ) ){
+if( isset( $_POST['reg_info'] ) && $_POST['reg_user'] == 'success'){
     $name       = $_POST['name'];
     $email      = $_POST['email'];
     $gender     = $_POST['gender'];
@@ -22,9 +26,6 @@ if( isset( $_POST['reg_info'] ) ){
     $country    = $_POST['country'];
 
     
-
-    var_dump( $salary );
-
     // $insert_q = $con->prepare("INSERT INTO employees (name, email) VALUES('{$name}', '{$email}')");
     $insert_q = $con->prepare("INSERT INTO employees (name, email, gender, salary, city, country) VALUES(:name, :email, :gender, :salary, :city, :country )");
     $insert_q->bindParam(':name', $name, PDO::PARAM_STR);
@@ -48,6 +49,7 @@ if( isset( $_POST['reg_info'] ) ){
     </head>
     <body>
         <form action="" method="POST">
+            <input type="hidden" name="reg_user" value="success">
             <input type="text" name="name" placeholder="Your Name"><br />
             <input type="email" name="email" placeholder="Your Email Address..."><br />
 
